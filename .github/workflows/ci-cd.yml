@@ -1,0 +1,41 @@
+name: CI and CD
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Run app (CI check)
+      run: |
+        python app.py
+
+  cd:
+    name: Continuous Deployment
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy (simulation)
+      run: |
+        echo "Deploying application..."
+        python app.py
+        echo "Deployment successful!"
