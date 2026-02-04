@@ -1,1 +1,1 @@
-print("Hello, World from app.py!")
+print("Hello, World")
